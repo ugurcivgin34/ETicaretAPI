@@ -1,4 +1,4 @@
-﻿using ETicaretAPI.Domain.Entities.Common;
+﻿ using ETicaretAPI.Domain.Entities.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +9,7 @@ namespace ETicaretAPI.Domain.Entities
 {
     public class Order :BaseEntity
     {
-        public int CustomerId { get; set; } //Bunu belirtmez EF otomatik defaultta kendisi koyuyor
+        public Guid CustomerId { get; set; } //Bunu belirtmez EF otomatik defaultta kendisi koyuyor
         public string Description { get; set; }
         public string Adress { get; set; }
 
