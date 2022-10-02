@@ -21,6 +21,7 @@ namespace ETicaretAPI.Api.Controllers
         [HttpGet]
         public async Task  Get()
         {
+
             //await _productWriteRepository.AddRangeAsync(new()
             // {
             //     new() {Id=Guid.NewGuid(),Name="Product 1",Price=100,CreatedDate=DateTime.UtcNow,Stock=10},
