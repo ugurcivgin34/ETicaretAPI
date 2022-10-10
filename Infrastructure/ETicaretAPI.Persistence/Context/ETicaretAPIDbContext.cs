@@ -27,8 +27,9 @@ namespace ETicaretAPI.Persistence.Context
             {
                 _ = data.State switch //Bir atama işlemi yapmak istemediğimizi belirmek için kullandık
                 {
-                    EntityState.Added => data.Entity.CreatedDate=DateTime.UtcNow,
-                    EntityState.Modified => data.Entity.UpdatedDate=DateTime.UtcNow
+                    EntityState.Added => data.Entity.CreatedDate = DateTime.UtcNow,
+                    EntityState.Modified => data.Entity.UpdatedDate = DateTime.UtcNow,
+                    _ => DateTime.UtcNow //Hiç biri değilse bu olsun mantığı yaptık
                 };
             }
 
