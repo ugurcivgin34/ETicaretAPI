@@ -1,7 +1,10 @@
-﻿using ETicaretAPI.Application.Repositories;
+﻿using ETicaretAPI.Application.Features.Commands.CreateProduct;
+using ETicaretAPI.Application.Features.Queries.GetAllProduct;
+using ETicaretAPI.Application.Repositories;
 using ETicaretAPI.Application.RequestParameters;
 using ETicaretAPI.Application.ViewModels.Products;
 using ETicaretAPI.Domain.Entities;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -16,36 +19,22 @@ namespace ETicaretAPI.Api.Controllers
         readonly private IProductWriteRepository _productWriteRepository;
         readonly private IProductReadRepository _productReadRepository;
         private readonly IWebHostEnvironment _webHostEnvironment;
-      
-        public ProductsController(IProductWriteRepository productWriteRepository, IProductReadRepository productReadRepository, IWebHostEnvironment webHostEnvironment)//IWebEnvironment wwwroot klasörüne erişmeyi sağlayan hızlı bir servis
+
+        readonly IMediator _mediator;
+
+        public ProductsController(IProductWriteRepository productWriteRepository, IProductReadRepository productReadRepository, IWebHostEnvironment webHostEnvironment, IMediator mediator)//IWebEnvironment wwwroot klasörüne erişmeyi sağlayan hızlı bir servis
         {
             _productWriteRepository = productWriteRepository;
             _productReadRepository = productReadRepository;
             _webHostEnvironment = webHostEnvironment;
-           
+            _mediator = mediator;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] Pagination pagination)
+        public async Task<IActionResult> Get([FromQuery] GetAllProductQueryRequest getAllProductQueryRequest)
         {
-            var totalCount = _productReadRepository.GetAll(false).Count();
-            var products = _productReadRepository.GetAll(false).Skip(pagination.Page * pagination.Size).Take(pagination.Size).Select(p => new
-            {
-                p.Id,
-                p.Name,
-                p.Stock,
-                p.Price,
-                p.CreatedDate,
-                p.UpdatedDate
-            }).ToList(); //önce hangi aralığa gitmek gerekiyorso oraya skip ile gidip kaç data gelicekse onu take ile alıyoruz
-
-            return Ok(new
-            {
-                totalCount,
-                products
-            });
-
-
+            GetAllProductQueryResponse response=await _mediator.Send(getAllProductQueryRequest);
+            return Ok(response);
 
             ////await _productWriteRepository.AddRangeAsync(new()
             //// {
@@ -71,21 +60,10 @@ namespace ETicaretAPI.Api.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Add(VM_Create_Product model)
+        public async Task<IActionResult> Post(CreateProductCommandRequest createProductCommandRequest )
         {
-            if (ModelState.IsValid)
-            {
-
-            }
-
-
-            await _productWriteRepository.AddAsync(new()
-            {
-                Name = model.Name,
-                Price = model.Price,
-                Stock = model.Stock
-            });
-            await _productWriteRepository.SaveAsync();
+            CreateProductCommandResponse response=await _mediator.Send(createProductCommandRequest);
+           
             return StatusCode((int)HttpStatusCode.Created);
         }
 
@@ -112,7 +90,7 @@ namespace ETicaretAPI.Api.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> Upload(string id)
         {
-          
+
             return Ok();
         } //...com/api/products?id=123   upload yaparken ne göndereceğimiz tam kesin değil, o yüzden bu yapıyı kullandık
 
@@ -121,7 +99,7 @@ namespace ETicaretAPI.Api.Controllers
         {
             Product? product = await _productReadRepository.Table.Include(p => p.ProductImageFiles).FirstOrDefaultAsync(p => p.Id == Guid.Parse(id));
 
-            return Ok(product.ProductImageFiles.Select(p=>new
+            return Ok(product.ProductImageFiles.Select(p => new
             {
                 p.Path,
                 p.FileName
