@@ -1,8 +1,10 @@
 ﻿using ETicaretAPI.Application.Repositories;
+using ETicaretAPI.Application.RequestParameters;
 using ETicaretAPI.Application.ViewModels.Products;
 using ETicaretAPI.Domain.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Net;
 
 namespace ETicaretAPI.Api.Controllers
@@ -13,17 +15,35 @@ namespace ETicaretAPI.Api.Controllers
     {
         readonly private IProductWriteRepository _productWriteRepository;
         readonly private IProductReadRepository _productReadRepository;
-
-        public ProductsController(IProductWriteRepository productWriteRepository, IProductReadRepository productReadRepository)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+      
+        public ProductsController(IProductWriteRepository productWriteRepository, IProductReadRepository productReadRepository, IWebHostEnvironment webHostEnvironment)//IWebEnvironment wwwroot klasörüne erişmeyi sağlayan hızlı bir servis
         {
             _productWriteRepository = productWriteRepository;
             _productReadRepository = productReadRepository;
+            _webHostEnvironment = webHostEnvironment;
+           
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] Pagination pagination)
         {
-            return Ok(_productReadRepository.GetAll(false));
+            var totalCount = _productReadRepository.GetAll(false).Count();
+            var products = _productReadRepository.GetAll(false).Skip(pagination.Page * pagination.Size).Take(pagination.Size).Select(p => new
+            {
+                p.Id,
+                p.Name,
+                p.Stock,
+                p.Price,
+                p.CreatedDate,
+                p.UpdatedDate
+            }).ToList(); //önce hangi aralığa gitmek gerekiyorso oraya skip ile gidip kaç data gelicekse onu take ile alıyoruz
+
+            return Ok(new
+            {
+                totalCount,
+                products
+            });
 
 
 
@@ -43,7 +63,7 @@ namespace ETicaretAPI.Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Get (string id)
+        public async Task<IActionResult> Get(string id)
         {
             return Ok(await _productReadRepository.GetByIdAsync(id, false));
         }
@@ -72,7 +92,7 @@ namespace ETicaretAPI.Api.Controllers
         [HttpPut]
         public async Task<IActionResult> Update(VM_Update_Product model)
         {
-           Product product=await _productReadRepository.GetByIdAsync(model.Id);
+            Product product = await _productReadRepository.GetByIdAsync(model.Id);
             product.Stock = model.Stock;
             product.Name = model.Name;
             product.Price = model.Price;
@@ -85,7 +105,27 @@ namespace ETicaretAPI.Api.Controllers
         {
             await _productWriteRepository.RemoveAsync(id);
             await _productWriteRepository.SaveAsync();
+
             return Ok();
+        }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> Upload(string id)
+        {
+          
+            return Ok();
+        } //...com/api/products?id=123   upload yaparken ne göndereceğimiz tam kesin değil, o yüzden bu yapıyı kullandık
+
+        [HttpGet("[Action]/{id}")]
+        public async Task<IActionResult> GetProductImages(string id)// ...com/api/products/123  ne göndereceğiniz bildiğimiz için id gelecek hep o yü<den böyle kullandık
+        {
+            Product? product = await _productReadRepository.Table.Include(p => p.ProductImageFiles).FirstOrDefaultAsync(p => p.Id == Guid.Parse(id));
+
+            return Ok(product.ProductImageFiles.Select(p=>new
+            {
+                p.Path,
+                p.FileName
+            }));
         }
     }
 }
