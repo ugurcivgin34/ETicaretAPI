@@ -34,7 +34,7 @@ namespace ETicaretAPI.Application.Features.Commands.AppUser.CreateUser
                 response.Message = "Kullanıcı başarıyla oluşturulmuştur";
             else
                 foreach (var error in result.Errors)
-                    response.Message += $"{error.Code} - {error.Description}<br>";
+                    response.Message += $"{error.Code} - {error.Description}";
 
             return response;
                 
