@@ -22,6 +22,7 @@ namespace ETicaretAPI.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes="Admin")] //Gelen jwt yi doğrulayacak attiribute 
     public class ProductsController : ControllerBase
     {
         readonly private IProductWriteRepository _productWriteRepository;

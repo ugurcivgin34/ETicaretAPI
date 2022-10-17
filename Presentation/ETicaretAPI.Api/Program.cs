@@ -5,7 +5,10 @@ using ETicaretAPI.Infrastructure.Filters;
 using ETicaretAPI.Infrastructure.Services.Storage.Local;
 using ETicaretAPI.Persistence;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,10 +23,26 @@ builder.Services.AddCors(options =>options.AddDefaultPolicy(policy=>
 ));
 
 builder.Services.AddControllers(options=>options.Filters.Add<ValidationFilter>()) //Bizim oluþturduðumuz filter
-                    .AddFluentValidation(configuration => configuration.RegisterValidatorsFromAssemblyContaining<CreateProductValidator>()) //Bu sayede validator sýnýflarunu otomatik blup iþletebilecez
+                    .AddFluentValidation(configuration => configuration.RegisterValidatorsFromAssemblyContaining<CreateProductValidator>()) //Bu sayede validator sýnýflarunu otomatik olup iþletebilecez
                     .ConfigureApiBehaviorOptions(options => options.SuppressModelStateInvalidFilter = true);//bunu ekleyerek doðrulama hatasý olduðunda .net core otomatik clienta cevap görmesin dedik.Kendi þeylerimizi döndürebiliriz artýk.Defaulttaki filteri kaldýrdýk yani
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer("Admin",options =>
+    {
+        options.TokenValidationParameters = new()
+        {
+            ValidateAudience = true, //Oluþturalacak token deðerini kimlerin/hangi originlerin/sitelerin kullanýcý belirlediðimiz deðerdir -> www.bilmemne.com
+            ValidateIssuer = true, //Oluþturulacak token deðerini kimin daðýttýný ifade edeceðimiz alandýr.
+            ValidateLifetime = true, //Oluþturulan token deðerinin süresini kontrol edecek olan doðrulamadýr.
+            ValidateIssuerSigningKey = true,  //Üretilecek token deðerinin uygulmamýza ait bir deðer olduðunu ifade eden security key verisinin doðrulanmasýdýr.
+
+            ValidAudience = builder.Configuration["Token:Audience"],
+            ValidIssuer = builder.Configuration["Token:Issuer"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Token:SecurityKey"]))
+        };
+    });
 
 var app = builder.Build();
 
@@ -38,6 +57,7 @@ app.UseCors();
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
