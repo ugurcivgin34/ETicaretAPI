@@ -19,18 +19,18 @@ builder.Services.AddApplicationServices();
 builder.Services.AddStorage<LocalStorage>();
 
 
-builder.Services.AddCors(options =>options.AddDefaultPolicy(policy=>
-    policy.WithOrigins("http://localhost:4200","https://localhost:4200").AllowAnyHeader().AllowAnyMethod()
+builder.Services.AddCors(options => options.AddDefaultPolicy(policy =>
+    policy.WithOrigins("http://localhost:4200", "https://localhost:4200").AllowAnyHeader().AllowAnyMethod()
 ));
 
-builder.Services.AddControllers(options=>options.Filters.Add<ValidationFilter>()) //Bizim oluþturduðumuz filter
+builder.Services.AddControllers(options => options.Filters.Add<ValidationFilter>()) //Bizim oluþturduðumuz filter
                     .AddFluentValidation(configuration => configuration.RegisterValidatorsFromAssemblyContaining<CreateProductValidator>()) //Bu sayede validator sýnýflarunu otomatik olup iþletebilecez
                     .ConfigureApiBehaviorOptions(options => options.SuppressModelStateInvalidFilter = true);//bunu ekleyerek doðrulama hatasý olduðunda .net core otomatik clienta cevap görmesin dedik.Kendi þeylerimizi döndürebiliriz artýk.Defaulttaki filteri kaldýrdýk yani
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer("Admin",options =>
+    .AddJwtBearer("Admin", options =>
     {
         options.TokenValidationParameters = new()
         {
@@ -41,8 +41,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
             ValidAudience = builder.Configuration["Token:Audience"],
             ValidIssuer = builder.Configuration["Token:Issuer"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Token:SecurityKey"]))
-        };
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Token:SecurityKey"])),
+            LifetimeValidator = (notBefore, expires, securityToken, validationParameters) => expires !=null ? expires > DateTime.UtcNow : false //Gelen jwt nin expire süresi dolmuþ ise iþlem yaptýrmayacak
+    };
     });
 
 var app = builder.Build();

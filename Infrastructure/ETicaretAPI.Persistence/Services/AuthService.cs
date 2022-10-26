@@ -7,6 +7,7 @@ using ETicaretAPI.Domain.Entities.Identy;
 using Google.Apis.Auth;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
 using System;
@@ -26,10 +27,11 @@ namespace ETicaretAPI.Persistence.Services
         private readonly UserManager<Domain.Entities.Identy.AppUser> _userManager;
         private readonly ITokenHandler _tokenHandler;
         private readonly SignInManager<Domain.Entities.Identy.AppUser> _signInManager;
+        private readonly IUserService _userService;
 
 
 
-        public AuthService(HttpClient httpClient, IConfiguration configuration, UserManager<Domain.Entities.Identy.AppUser> userManager, ITokenHandler tokenHandler, IHttpClientFactory httpClientFactory, SignInManager<AppUser> signInManager)
+        public AuthService(HttpClient httpClient, IConfiguration configuration, UserManager<Domain.Entities.Identy.AppUser> userManager, ITokenHandler tokenHandler, IHttpClientFactory httpClientFactory, SignInManager<AppUser> signInManager, IUserService userService)
         {
             _httpClient = httpClient;
             _configuration = configuration;
@@ -37,6 +39,7 @@ namespace ETicaretAPI.Persistence.Services
             _tokenHandler = tokenHandler;
             _httpClient = httpClientFactory.CreateClient(); //HttpClient direk IoC den çekilemediği için factroy u kullandık 
             _signInManager = signInManager;
+            _userService = userService;
         }
 
         async Task<TokenDto> CreateUserExternalAsync(AppUser user, string email, string name, UserLoginInfo info, int accessTokenLifeTime)
@@ -64,6 +67,7 @@ namespace ETicaretAPI.Persistence.Services
                 await _userManager.AddLoginAsync(user, info);
 
                 TokenDto token = _tokenHandler.CreateAccessToken(accessTokenLifeTime);
+                await _userService.UpdateRefreshToken(token.RefreshToken, user, token.Expiration, 5);
                 return token;
             }
             throw new Exception("Invalid external authentication");
@@ -152,9 +156,23 @@ namespace ETicaretAPI.Persistence.Services
             if (result.Succeeded) //Authentication başarılı!
             {
                 TokenDto token = _tokenHandler.CreateAccessToken(accessTokenLifeTime);
+                await _userService.UpdateRefreshToken(token.RefreshToken, user, token.Expiration, 5);
                 return token;
             }
             throw new AuthenticationErrrorException();
         }
+
+        public async Task<TokenDto> RefreshTokenLoginAsync(string refreshToken)
+        {
+            AppUser? user = await _userManager.Users.FirstOrDefaultAsync(u=>u.RefreshToken == refreshToken);
+            if (user != null && user?.RefreshTokenEndDate > DateTime.UtcNow)
+            {
+                TokenDto token = _tokenHandler.CreateAccessToken(15);
+                await _userService.UpdateRefreshToken(token.RefreshToken, user, token.Expiration, 15);
+                return token;
+            }
+            else
+                throw new NotFoundUserException();
+        }   
     }
 }
