@@ -66,7 +66,7 @@ namespace ETicaretAPI.Persistence.Services
             {
                 await _userManager.AddLoginAsync(user, info);
 
-                TokenDto token = _tokenHandler.CreateAccessToken(accessTokenLifeTime);
+                TokenDto token = _tokenHandler.CreateAccessToken(accessTokenLifeTime,user);
                 await _userService.UpdateRefreshToken(token.RefreshToken, user, token.Expiration, 5);
                 return token;
             }
@@ -155,7 +155,7 @@ namespace ETicaretAPI.Persistence.Services
             SignInResult result = await _signInManager.CheckPasswordSignInAsync(user, password, false);//kullanıcı şifresini yanlış girerse locklayım mı sorusuna hayır 
             if (result.Succeeded) //Authentication başarılı!
             {
-                TokenDto token = _tokenHandler.CreateAccessToken(accessTokenLifeTime);
+                TokenDto token = _tokenHandler.CreateAccessToken(accessTokenLifeTime,user);
                 await _userService.UpdateRefreshToken(token.RefreshToken, user, token.Expiration, 5);
                 return token;
             }
@@ -167,7 +167,7 @@ namespace ETicaretAPI.Persistence.Services
             AppUser? user = await _userManager.Users.FirstOrDefaultAsync(u=>u.RefreshToken == refreshToken);
             if (user != null && user?.RefreshTokenEndDate > DateTime.UtcNow)
             {
-                TokenDto token = _tokenHandler.CreateAccessToken(15);
+                TokenDto token = _tokenHandler.CreateAccessToken(15,user);
                 await _userService.UpdateRefreshToken(token.RefreshToken, user, token.Expiration, 15);
                 return token;
             }

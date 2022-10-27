@@ -1,5 +1,6 @@
 ﻿using ETicaretAPI.Application.Abstractions.Token;
 using ETicaretAPI.Application.DTOs;
+using ETicaretAPI.Domain.Entities.Identy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -22,7 +23,7 @@ namespace ETicaretAPI.Infrastructure.Services.Token
             _configuration = configuration;
         }
 
-        public TokenDto CreateAccessToken(int second)
+        public TokenDto CreateAccessToken(int second, AppUser user)
         {
             TokenDto token = new();
 
@@ -39,7 +40,8 @@ namespace ETicaretAPI.Infrastructure.Services.Token
                 issuer: _configuration["Token:Issuer"],
                 expires: token.Expiration,
                 notBefore: DateTime.UtcNow, //Bu token ne zaman üretildikten sonra devreye girsin.Üretildiği anda devreye girsin demiş olduk
-                signingCredentials: signingCredentials
+                signingCredentials: signingCredentials,
+                claims:new List<Claim> { new(ClaimTypes.Name,user.UserName)}
                 );
 
             //Token oluşturucu sınıfından bir örnek alalım.
