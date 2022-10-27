@@ -1,4 +1,5 @@
 using ETicaretAPI.Api.Configurations.ColumnWriters;
+using ETicaretAPI.Api.Extensions;
 using ETicaretAPI.Application;
 using ETicaretAPI.Application.Validators.Products;
 using ETicaretAPI.Infrastructure;
@@ -117,7 +118,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-
+app.ConfigureExceptionHandler<Program>(app.Services.GetRequiredService<ILogger<Program>>()); //Global exception
 app.UseStaticFiles();
 
 app.UseSerilogRequestLogging(); //Bunu nereye koyduysak bundan sonraki middleware lar loglanýr,öncekiler loglanmaz
