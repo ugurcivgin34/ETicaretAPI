@@ -22,7 +22,6 @@ namespace ETicaretAPI.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(AuthenticationSchemes="Admin")] //Gelen jwt yi doğrulayacak attiribute 
     public class ProductsController : ControllerBase
     {
         readonly private IProductWriteRepository _productWriteRepository;
@@ -54,7 +53,7 @@ namespace ETicaretAPI.Api.Controllers
         }
 
         [HttpPost]
-
+        [Authorize(AuthenticationSchemes = "Admin")] //Gelen jwt yi doğrulayacak attiribute 
         public async Task<IActionResult> Post(CreateProductCommandRequest createProductCommandRequest)
         {
             CreateProductCommandResponse response = await _mediator.Send(createProductCommandRequest);
@@ -62,6 +61,7 @@ namespace ETicaretAPI.Api.Controllers
         }
 
         [HttpPut]
+        [Authorize(AuthenticationSchemes = "Admin")] 
         public async Task<IActionResult> Put([FromBody] UpdateProductCommandRequest updateProductCommandRequest)
         {
             UpdateProductCommandResponse response = await _mediator.Send(updateProductCommandRequest);
@@ -69,6 +69,7 @@ namespace ETicaretAPI.Api.Controllers
         }
 
         [HttpDelete("{Id}")]
+        [Authorize(AuthenticationSchemes = "Admin")]
         public async Task<IActionResult> Delete([FromRoute] RemoveProductCommandRequest removeProductCommandRequest)
         {
             RemoveProductCommandResponse response = await _mediator.Send(removeProductCommandRequest);
@@ -76,6 +77,7 @@ namespace ETicaretAPI.Api.Controllers
         }
 
         [HttpPost("[action]")]
+        [Authorize(AuthenticationSchemes = "Admin")]
         public async Task<IActionResult> Upload([FromQuery] UploadProductImageCommandRequest uploadProductImageCommandRequest)
         {
             uploadProductImageCommandRequest.Files = Request.Form.Files;
@@ -84,6 +86,7 @@ namespace ETicaretAPI.Api.Controllers
         } //...com/api/products?id=123   upload yaparken ne göndereceğimiz tam kesin değil, o yüzden bu yapıyı kullandık
 
         [HttpGet("[Action]/{id}")]
+        [Authorize(AuthenticationSchemes = "Admin")]
         public async Task<IActionResult> GetProductImages([FromRoute] GetProductImagesQueryRequest getProductImagesQueryRequest)// ...com/api/products/123  ne göndereceğiniz bildiğimiz için id gelecek hep o yü<den böyle kullandık
         {
             List<GetProductImagesQueryResponse> response = await _mediator.Send(getProductImagesQueryRequest);
@@ -91,6 +94,7 @@ namespace ETicaretAPI.Api.Controllers
         }
 
         [HttpDelete("[action]/{id}")]
+        [Authorize(AuthenticationSchemes = "Admin")]
         public async Task<IActionResult> DeleteProductImage([FromRoute] RemoveProductImageCommandRequest removeProductImageCommandRequest, [FromQuery] string imageId)
         {
             //Ders sonrası not !
@@ -102,11 +106,14 @@ namespace ETicaretAPI.Api.Controllers
         }
 
         [HttpGet("[action]")]
+        [Authorize(AuthenticationSchemes = "Admin")]
         public async Task<IActionResult> ChangeShowcaseImage([FromQuery] ChangeShowcaseImageCommandRequest changeShowcaseImageCommandRequest)
         {
             ChangeShowcaseImageCommandResponse response = await _mediator.Send(changeShowcaseImageCommandRequest);
             return Ok(response);
         }
 
+
+        
     }
 }

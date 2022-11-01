@@ -1,4 +1,4 @@
-﻿using ETicaretAPI.Application.Repositories.ProductImageFile;
+﻿  using ETicaretAPI.Application.Repositories.ProductImageFile;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
