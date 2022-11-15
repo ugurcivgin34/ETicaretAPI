@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading.Tasks.Dataflow;
 
 namespace ETicaretAPI.Persistence.Services
 {
@@ -37,7 +38,7 @@ namespace ETicaretAPI.Persistence.Services
 
         public async Task<ListOrderDto> GetAllOrdersAsync(int page, int size)
         {
-            var query= _orderReadRepository.Table.Include(o => o.Basket)
+            var query = _orderReadRepository.Table.Include(o => o.Basket)
                 .ThenInclude(b => b.User)
                 .Include(o => o.Basket)
                     .ThenInclude(b => b.BasketItems)
@@ -50,6 +51,7 @@ namespace ETicaretAPI.Persistence.Services
                 TotalOrderCount = await query.CountAsync(),
                 Orders = await data.Select(o => new
                 { //Anonim gönderdik
+                    Id = o.Id,
                     CreatedDate = o.CreatedDate,
                     OrderCode = o.OrderCode,
                     TotalPrice = o.Basket.BasketItems.Sum(bi => bi.Product.Price * bi.Quantity),
@@ -59,5 +61,28 @@ namespace ETicaretAPI.Persistence.Services
 
         }
 
+        public async Task<SingleOrderDto> GetOrderByIdAsync(string id)
+        {
+            var data = await _orderReadRepository.Table
+                .Include(o => o.Basket)
+                    .ThenInclude(b => b.BasketItems)
+                        .ThenInclude(bl => bl.Product)
+                            .FirstOrDefaultAsync(o => o.Id == Guid.Parse(id));
+
+            return new()
+            {
+                Id = data.Id.ToString(),
+                BasketItems = data.Basket.BasketItems.Select(bi => new
+                {
+                    bi.Product.Name,
+                    bi.Product.Price,
+                    bi.Quantity
+                }),
+                Address = data.Adress,
+                CreatedDate = data.CreatedDate,
+                Description = data.Description,
+                OrderCode = data.OrderCode
+            };
+        }
     }
 }
