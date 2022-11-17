@@ -1,4 +1,5 @@
-﻿using ETicaretAPI.Application.Features.Commands.Order.CreateOrder;
+﻿using ETicaretAPI.Application.Abstractions.Services;
+using ETicaretAPI.Application.Features.Commands.Order.CreateOrder;
 using ETicaretAPI.Application.Features.Queries.Order.GetAllOrders;
 using ETicaretAPI.Application.Features.Queries.Order.GetOrderById;
 using MediatR;
@@ -17,6 +18,7 @@ namespace ETicaretAPI.Api.Controllers
         public OrdersController(IMediator mediator)
         {
             _mediator = mediator;
+      
         }
 
         [HttpGet("{Id}")]
@@ -46,5 +48,7 @@ namespace ETicaretAPI.Api.Controllers
         //    CompleteOrderCommandResponse response = await _mediator.Send(completeOrderCommandRequest);
         //    return Ok(response);
         //}
+
+        
     }
 }

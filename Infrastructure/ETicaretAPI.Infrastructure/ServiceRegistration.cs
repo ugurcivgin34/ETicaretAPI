@@ -42,7 +42,6 @@ namespace ETicaretAPI.Infrastructure
                     serviceCollection.AddScoped<IStorage, AzureStorage>();
                     break;
                 case StorageType.AWS:
-
                     break;
                 default:
                     serviceCollection.AddScoped<IStorage, LocalStorage>();
