@@ -12,6 +12,6 @@ namespace ETicaretAPI.Application.Abstractions.Services
         Task CreateOrderAsync(CreateOrderDto createOrder);
         Task<ListOrderDto> GetAllOrdersAsync(int page, int size);
         Task<SingleOrderDto> GetOrderByIdAsync(string id);
-
+        Task<(bool, CompletedOrderDTO)> CompleteOrderAsync(string id);
     }
 }

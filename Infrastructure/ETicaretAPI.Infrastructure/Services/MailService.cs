@@ -19,6 +19,7 @@ namespace ETicaretAPI.Infrastructure.Services
             _configuration = configuration;
         }
 
+
         public async Task SendMailAsync(string to, string subject, string body, bool isBodyHtml = true)
         {
             await SendMailAsync(new[] { to }, subject, body, isBodyHtml);
@@ -36,7 +37,7 @@ namespace ETicaretAPI.Infrastructure.Services
                 mail.Body = body;
                 mail.From = new(_configuration["Mail:Username"], "NG E-Ticaret", System.Text.Encoding.UTF8);
 
-                SmtpClient smtp = new();      
+                SmtpClient smtp = new();
                 smtp.Credentials = new NetworkCredential(_configuration["Mail:Username"], _configuration["Mail:Password"]);
                 smtp.Port = 587;
                 smtp.EnableSsl = true;
@@ -48,7 +49,7 @@ namespace ETicaretAPI.Infrastructure.Services
 
                 throw;
             }
-           
+
         }
 
         public async Task SendPasswordResetMailAsync(string to, string userId, string resetToken)
@@ -64,5 +65,16 @@ namespace ETicaretAPI.Infrastructure.Services
 
             await SendMailAsync(to, "Şifre Yenileme Talebi", mail.ToString());
         }
+
+        public async Task SendCompletedOrderMailAsync(string to, string orderCode, DateTime orderDate, string userName)
+        {
+            string mail = $"Sayın {userName} Merhaba<br>" +
+                $"{orderDate} tarihinde vermiş olduğunuz {orderCode} kodlu siparişiniz tamamlanmış ve kargo firmasına verilmiştir.<br>Hayrını görünüz efendim...";
+
+            await SendMailAsync(to, $"{orderCode} Sipariş Numaralı Siparişiniz Tamamlandı", mail);
+
+        }
+
+
     }
 }

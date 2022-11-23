@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace ETicaretAPI.Persistence.Context
 {
-    public class ETicaretAPIDbContext : IdentityDbContext<AppUser,AppRole,string>
+    public class ETicaretAPIDbContext : IdentityDbContext<AppUser, AppRole, string>
     {
         public ETicaretAPIDbContext(DbContextOptions options) : base(options)
         { }
@@ -23,6 +23,7 @@ namespace ETicaretAPI.Persistence.Context
         public DbSet<InvoiceFile> InvoiceFiles { get; set; }
         public DbSet<Basket> Baskets { get; set; }
         public DbSet<BasketItem> BasketItems { get; set; }
+        public DbSet<CompletedOrder> CompletedOrders { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         { //bir kullanıcının siparişini tamamladığında yani basket dekini tamamlandığında orderi oluşacak, order ı olmayan basket varsa basket oluşacak
@@ -37,6 +38,11 @@ namespace ETicaretAPI.Persistence.Context
                 .HasOne(b => b.Order)
                 .WithOne(o => o.Basket)
                 .HasForeignKey<Order>(b => b.Id);
+
+            builder.Entity<Order>()
+                .HasOne(o => o.CompletedOrder)
+                .WithOne(c => c.Order)
+                .HasForeignKey<CompletedOrder>(c => c.OrderId);
 
             base.OnModelCreating(builder); //IdentityDbContext den impilement ettirdiğimiz için bu satırı eklememiz gerekiyor. Yoksa hata veriyor.Eğer normal EntityFramework DbContext ini sadece kullansaydık buna gerek kalmayacaktı
         }
