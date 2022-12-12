@@ -1,0 +1,11 @@
+﻿C:\Users\uocivgin\Desktop\ETicaretUygulamasi\ETicaretAPI\Infrastructure\ETicaretAPI.Infrastructure\Enums\StorageType.cs
+C:\Users\uocivgin\Desktop\ETicaretUygulamasi\ETicaretAPI\Infrastructure\ETicaretAPI.Infrastructure\Filters\ValidationFilter.cs
+C:\Users\uocivgin\Desktop\ETicaretUygulamasi\ETicaretAPI\Infrastructure\ETicaretAPI.Infrastructure\Operations\NameOperation.cs
+C:\Users\uocivgin\Desktop\ETicaretUygulamasi\ETicaretAPI\Infrastructure\ETicaretAPI.Infrastructure\ServiceRegistration.cs
+C:\Users\uocivgin\Desktop\ETicaretUygulamasi\ETicaretAPI\Infrastructure\ETicaretAPI.Infrastructure\Services\MailService.cs
+C:\Users\uocivgin\Desktop\ETicaretUygulamasi\ETicaretAPI\Infrastructure\ETicaretAPI.Infrastructure\Services\Storage\Azure\AzureStorage.cs
+C:\Users\uocivgin\Desktop\ETicaretUygulamasi\ETicaretAPI\Infrastructure\ETicaretAPI.Infrastructure\Services\Storage\Local\LocalStorage.cs
+C:\Users\uocivgin\Desktop\ETicaretUygulamasi\ETicaretAPI\Infrastructure\ETicaretAPI.Infrastructure\Services\Storage\Storage.cs
+C:\Users\uocivgin\Desktop\ETicaretUygulamasi\ETicaretAPI\Infrastructure\ETicaretAPI.Infrastructure\Services\Storage\StorageService.cs
+C:\Users\uocivgin\Desktop\ETicaretUygulamasi\ETicaretAPI\Infrastructure\ETicaretAPI.Infrastructure\Services\Token\TokenHandler.cs
+C:\Users\uocivgin\Desktop\ETicaretUygulamasi\ETicaretAPI\Infrastructure\ETicaretAPI.Infrastructure\Properties\launchSettings.json

@@ -1,0 +1,7 @@
+﻿C:\Users\uocivgin\Desktop\ETicaretUygulamasi\ETicaretAPI\Infrastructure\ETicaretAPI.SignalIR\HubRegistration.cs
+C:\Users\uocivgin\Desktop\ETicaretUygulamasi\ETicaretAPI\Infrastructure\ETicaretAPI.SignalIR\HubServices\OrderHubService.cs
+C:\Users\uocivgin\Desktop\ETicaretUygulamasi\ETicaretAPI\Infrastructure\ETicaretAPI.SignalIR\HubServices\ProductHubService.cs
+C:\Users\uocivgin\Desktop\ETicaretUygulamasi\ETicaretAPI\Infrastructure\ETicaretAPI.SignalIR\Hubs\OrderHub.cs
+C:\Users\uocivgin\Desktop\ETicaretUygulamasi\ETicaretAPI\Infrastructure\ETicaretAPI.SignalIR\Hubs\ProductHub.cs
+C:\Users\uocivgin\Desktop\ETicaretUygulamasi\ETicaretAPI\Infrastructure\ETicaretAPI.SignalIR\ReceiveFunctionNames.cs
+C:\Users\uocivgin\Desktop\ETicaretUygulamasi\ETicaretAPI\Infrastructure\ETicaretAPI.SignalIR\ServiceRegistration.cs

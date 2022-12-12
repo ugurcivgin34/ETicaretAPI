@@ -1,0 +1,17 @@
+﻿C:\Users\uocivgin\Desktop\ETicaretUygulamasi\ETicaretAPI\Presentation\ETicaretAPI.Api\Configurations\ColumnWriters\UsernameColumnWriter.cs
+C:\Users\uocivgin\Desktop\ETicaretUygulamasi\ETicaretAPI\Presentation\ETicaretAPI.Api\Controllers\AuthController.cs
+C:\Users\uocivgin\Desktop\ETicaretUygulamasi\ETicaretAPI\Presentation\ETicaretAPI.Api\Controllers\BasketsController.cs
+C:\Users\uocivgin\Desktop\ETicaretUygulamasi\ETicaretAPI\Presentation\ETicaretAPI.Api\Controllers\FilesController.cs
+C:\Users\uocivgin\Desktop\ETicaretUygulamasi\ETicaretAPI\Presentation\ETicaretAPI.Api\Controllers\OrdersController.cs
+C:\Users\uocivgin\Desktop\ETicaretUygulamasi\ETicaretAPI\Presentation\ETicaretAPI.Api\Controllers\ProductsController.cs
+C:\Users\uocivgin\Desktop\ETicaretUygulamasi\ETicaretAPI\Presentation\ETicaretAPI.Api\Controllers\UsersController.cs
+C:\Users\uocivgin\Desktop\ETicaretUygulamasi\ETicaretAPI\Presentation\ETicaretAPI.Api\Extensions\ConfigureExceptionHandlerExtension.cs
+C:\Users\uocivgin\Desktop\ETicaretUygulamasi\ETicaretAPI\Presentation\ETicaretAPI.Api\Program.cs
+C:\Users\uocivgin\Desktop\ETicaretUygulamasi\ETicaretAPI\Presentation\ETicaretAPI.Api\obj\Debug\net6.0\ETicaretAPI.Api.GlobalUsings.g.cs
+C:\Users\uocivgin\Desktop\ETicaretUygulamasi\ETicaretAPI\Presentation\ETicaretAPI.Api\obj\Debug\net6.0\.NETCoreApp,Version=v6.0.AssemblyAttributes.cs
+C:\Users\uocivgin\Desktop\ETicaretUygulamasi\ETicaretAPI\Presentation\ETicaretAPI.Api\obj\Debug\net6.0\ETicaretAPI.Api.AssemblyInfo.cs
+C:\Users\uocivgin\Desktop\ETicaretUygulamasi\ETicaretAPI\Presentation\ETicaretAPI.Api\obj\Debug\net6.0\ETicaretAPI.Api.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\uocivgin\Desktop\ETicaretUygulamasi\ETicaretAPI\Presentation\ETicaretAPI.Api\appsettings.Development.json
+C:\Users\uocivgin\Desktop\ETicaretUygulamasi\ETicaretAPI\Presentation\ETicaretAPI.Api\appsettings.json
+C:\Users\uocivgin\Desktop\ETicaretUygulamasi\ETicaretAPI\Presentation\ETicaretAPI.Api\logs\log.txt
+C:\Users\uocivgin\Desktop\ETicaretUygulamasi\ETicaretAPI\Presentation\ETicaretAPI.Api\Properties\launchSettings.json

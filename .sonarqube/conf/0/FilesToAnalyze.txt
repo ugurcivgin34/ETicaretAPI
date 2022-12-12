@@ -1,0 +1,12 @@
+﻿C:\Users\uocivgin\Desktop\ETicaretUygulamasi\ETicaretAPI\Core\ETicaretAPI.Domain\Entities\Basket.cs
+C:\Users\uocivgin\Desktop\ETicaretUygulamasi\ETicaretAPI\Core\ETicaretAPI.Domain\Entities\BasketItem.cs
+C:\Users\uocivgin\Desktop\ETicaretUygulamasi\ETicaretAPI\Core\ETicaretAPI.Domain\Entities\Common\BaseEntity.cs
+C:\Users\uocivgin\Desktop\ETicaretUygulamasi\ETicaretAPI\Core\ETicaretAPI.Domain\Entities\CompletedOrder.cs
+C:\Users\uocivgin\Desktop\ETicaretUygulamasi\ETicaretAPI\Core\ETicaretAPI.Domain\Entities\Customer.cs
+C:\Users\uocivgin\Desktop\ETicaretUygulamasi\ETicaretAPI\Core\ETicaretAPI.Domain\Entities\File.cs
+C:\Users\uocivgin\Desktop\ETicaretUygulamasi\ETicaretAPI\Core\ETicaretAPI.Domain\Entities\Identy\AppRole.cs
+C:\Users\uocivgin\Desktop\ETicaretUygulamasi\ETicaretAPI\Core\ETicaretAPI.Domain\Entities\Identy\AppUser.cs
+C:\Users\uocivgin\Desktop\ETicaretUygulamasi\ETicaretAPI\Core\ETicaretAPI.Domain\Entities\InvoiceFile.cs
+C:\Users\uocivgin\Desktop\ETicaretUygulamasi\ETicaretAPI\Core\ETicaretAPI.Domain\Entities\Order.cs
+C:\Users\uocivgin\Desktop\ETicaretUygulamasi\ETicaretAPI\Core\ETicaretAPI.Domain\Entities\Product.cs
+C:\Users\uocivgin\Desktop\ETicaretUygulamasi\ETicaretAPI\Core\ETicaretAPI.Domain\Entities\ProductImageFile.cs
