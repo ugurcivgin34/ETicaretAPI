@@ -1,0 +1,12 @@
+{
+  "ServerUri": "http://localhost:9000/",
+  "Organization": null,
+  "ProjectKey": "e-ticaret",
+  "ProjectName": "e-ticaret",
+  "Profiles": {
+    "CSharp": {
+      "ProfileKey": "AYUExrzpo2Xscd_copxk",
+      "ProfileTimestamp": "2022-12-12T05:20:11Z"
+    }
+  }
+}
