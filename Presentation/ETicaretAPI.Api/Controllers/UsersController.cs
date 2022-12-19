@@ -5,6 +5,7 @@ using ETicaretAPI.Application.Features.Commands.AppUser.GoogleLogin;
 using ETicaretAPI.Application.Features.Commands.AppUser.LoginUser;
 using ETicaretAPI.Application.Features.Commands.AppUser.UpdatePassword;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -34,6 +35,7 @@ namespace ETicaretAPI.Api.Controllers
             UpdatePasswordCommandResponse response = await _mediator.Send(updatePasswordCommandRequest);
             return Ok(response);
         }
+
 
 
         //[HttpGet("ActionName")]

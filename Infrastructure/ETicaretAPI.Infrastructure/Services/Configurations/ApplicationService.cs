@@ -27,16 +27,17 @@ namespace ETicaretAPI.Infrastructure.Services.Configurations
             if (controllers != null)
                 foreach (var controller in controllers)
                 {
-                    var actions = controller.GetMethods().Where(m => m.IsDefined(typeof(AuthorizeDefinitionAttribute)));
+                    var actions = controller.GetMethods().Where(m => m.IsDefined(typeof(AuthorizeDefinitionAttribute))); //AuthorizeDefinitionAttribute attribute atanmış olanları getrir
                     if (actions != null)
                         foreach (var action in actions)
                         {
-                            var attributes = action.GetCustomAttributes(true);
+                            var attributes = action.GetCustomAttributes(true); //Atanmış tüm attributleri dizi olarak döndürür.
                             if (attributes != null)
                             {
                                 MenuDto menu = new();
 
-                                var authorizeDefinitionAttribute = attributes.FirstOrDefault(a => a.GetType() == typeof(AuthorizeDefinitionAttribute)) as AuthorizeDefinitionAttribute;
+                                var authorizeDefinitionAttribute = attributes.FirstOrDefault(a => a.GetType() == typeof(AuthorizeDefinitionAttribute)) as AuthorizeDefinitionAttribute;//Bu kod parçacığında, attributes dizisindeki öğelerin bir kopyası alınıyor ve içinde AuthorizeDefinitionAttribute tipinde bir öğe var mı diye bakılıyor. Eğer var ise, bu öğe döndürülüyor. Eğer yoksa, null döndürülüyor.
+
                                 if (!menus.Any(m => m.Name == authorizeDefinitionAttribute.Menu))
                                 {
                                     menu = new() { Name = authorizeDefinitionAttribute.Menu };
